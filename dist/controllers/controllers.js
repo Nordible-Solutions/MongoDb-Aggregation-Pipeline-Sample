@@ -13,6 +13,24 @@ const lesson_1 = require("../models/lesson");
 const user_1 = require("../models/user");
 const lessonUserMapping_1 = require("../models/lessonUserMapping");
 class Controllers {
+    StartLesson(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let startLessonRes = yield lessonUserMapping_1.lessonUserMapping.update({
+                lesson: req.body.lesson,
+                user: req.body.user
+            }, { started: new Date().toISOString() }, { multi: true });
+            res.json(startLessonRes);
+        });
+    }
+    EndLesson(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let endLessonRes = yield lessonUserMapping_1.lessonUserMapping.update({
+                lesson: req.body.lesson,
+                user: req.body.user
+            }, { finished: new Date().toISOString() }, { multi: true });
+            res.json(endLessonRes);
+        });
+    }
     AssignLessonToUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let userRes = yield user_1.user.find({ name: req.body.user }, { _id: 1, name: 1 });
@@ -107,7 +125,7 @@ class Controllers {
                         }
                     }
                 }]);
-            res.status(200).send(`The pending percentage is ${pendingPercentage[0].percentage}%`);
+            res.status(200).send(`The pending percentage for ${companyParam} is ${pendingPercentage[0].percentage}%`);
         });
     }
     ParticipationPercentage(req, res) {
@@ -142,7 +160,7 @@ class Controllers {
                         }
                     }
                 }]);
-            res.status(200).send(`The participation percentage is ${participationPercentage[0].percentage}%`);
+            res.status(200).send(`The participation percentage for ${companyParam} is ${participationPercentage[0].percentage}%`);
         });
     }
     CompletionPercentage(req, res) {
@@ -174,7 +192,7 @@ class Controllers {
                         }
                     }
                 }]);
-            res.status(200).send(`The completion percentage is ${completionPercentage[0].percentage}%`);
+            res.status(200).send(`The completion percentage for ${companyParam} is ${completionPercentage[0].percentage}%`);
         });
     }
 }

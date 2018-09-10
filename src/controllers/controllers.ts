@@ -5,6 +5,29 @@ import { user } from "../models/user";
 import { lessonUserMapping } from "../models/lessonUserMapping";
 
 export class Controllers {
+    async StartLesson(req: Request, res: Response) {
+
+        let startLessonRes = await lessonUserMapping.update({
+            lesson: req.body.lesson,
+            user: req.body.user
+        }, { started: new Date().toISOString() },
+            { multi: true });
+
+        res.json(startLessonRes);
+
+    }
+
+    async EndLesson(req: Request, res: Response) {
+
+        let endLessonRes = await lessonUserMapping.update({
+            lesson: req.body.lesson,
+            user: req.body.user
+        }, { finished: new Date().toISOString() },
+            { multi: true });
+
+        res.json(endLessonRes);
+
+    }
 
     async AssignLessonToUser(req: Request, res: Response) {
         let userRes = await user.find({ name: req.body.user }, { _id: 1, name: 1 });
@@ -114,7 +137,7 @@ export class Controllers {
                 }
             }]);
 
-        res.status(200).send(`The pending percentage is ${pendingPercentage[0].percentage}%`);
+        res.status(200).send(`The pending percentage for ${companyParam} is ${pendingPercentage[0].percentage}%`);
     }
 
     async ParticipationPercentage(req: Request, res: Response) {
@@ -151,7 +174,7 @@ export class Controllers {
                 }
             }]);
 
-        res.status(200).send(`The participation percentage is ${participationPercentage[0].percentage}%`);
+        res.status(200).send(`The participation percentage for ${companyParam} is ${participationPercentage[0].percentage}%`);
     }
 
     async CompletionPercentage(req: Request, res: Response) {
@@ -185,6 +208,6 @@ export class Controllers {
                 }
             }]);
 
-        res.status(200).send(`The completion percentage is ${completionPercentage[0].percentage}%`);
+        res.status(200).send(`The completion percentage for ${companyParam} is ${completionPercentage[0].percentage}%`);
     }
 }

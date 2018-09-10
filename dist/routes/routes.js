@@ -22,6 +22,10 @@ class Routes {
             .get(Controller.ParticipationPercentage);
         app.route('/completionPercentage/:company')
             .get(Controller.CompletionPercentage);
+        app.route('/startLesson')
+            .patch(Controller.StartLesson);
+        app.route('/endLesson')
+            .patch(Controller.EndLesson);
     }
 }
 exports.Routes = Routes;
