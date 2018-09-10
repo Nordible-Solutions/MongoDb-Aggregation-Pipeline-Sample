@@ -13,9 +13,6 @@ export class Routes {
         app.route("/company")
             .post(Controller.CompanyPOST)
 
-        app.route("/addLesson")
-            .post(Controller.AddLesson);
-
         app.route("/user")
             .post(Controller.UserPOST)
 

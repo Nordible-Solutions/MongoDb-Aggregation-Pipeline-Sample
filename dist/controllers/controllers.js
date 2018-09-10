@@ -11,28 +11,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const company_1 = require("../models/company");
 const lesson_1 = require("../models/lesson");
 const user_1 = require("../models/user");
-const companyLessonMapping_1 = require("../models/companyLessonMapping");
 const lessonUserMapping_1 = require("../models/lessonUserMapping");
 class Controllers {
-    AddLesson(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let companyRes = yield company_1.company.find({ name: req.body.company }, { _id: 1 });
-            let lessonRes = yield lesson_1.lesson.find({ name: req.body.lesson }, { _id: 1 });
-            if (companyRes.length > 0 && lessonRes.length > 0) {
-                let companyLessonMappingModel = new companyLessonMapping_1.companyLessonMapping({
-                    company: companyRes[0]._id,
-                    lesson: lessonRes[0]._id
-                });
-                companyLessonMappingModel
-                    .save()
-                    .then(c => res.json(c))
-                    .catch(err => res.send('An error occured when mapping company to lessons'));
-            }
-            else {
-                res.send('An error occured when mapping company to lessons');
-            }
-        });
-    }
     AssignLessonToUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let userRes = yield user_1.user.find({ name: req.body.user }, { _id: 1, name: 1 });

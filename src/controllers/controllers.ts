@@ -2,29 +2,9 @@ import { Request, Response } from "express";
 import { company } from "../models/company";
 import { lesson } from "../models/lesson";
 import { user } from "../models/user";
-import { companyLessonMapping } from "../models/companyLessonMapping";
 import { lessonUserMapping } from "../models/lessonUserMapping";
 
 export class Controllers {
-
-    async AddLesson(req: Request, res: Response) {
-        let companyRes = await company.find({ name: req.body.company }, { _id: 1 });
-        let lessonRes = await lesson.find({ name: req.body.lesson }, { _id: 1 });
-
-        if (companyRes.length > 0 && lessonRes.length > 0) {
-            let companyLessonMappingModel = new companyLessonMapping({
-                company: companyRes[0]._id,
-                lesson: lessonRes[0]._id
-            });
-
-            companyLessonMappingModel
-                .save()
-                .then(c => res.json(c))
-                .catch(err => res.send('An error occured when mapping company to lessons'));
-        } else {
-            res.send('An error occured when mapping company to lessons');
-        }
-    }
 
     async AssignLessonToUser(req: Request, res: Response) {
         let userRes = await user.find({ name: req.body.user }, { _id: 1, name: 1 });
